@@ -20,3 +20,5 @@ config.action_mailer.brevo_settings = {
   api_key: ENV.fetch('BREVO_API_KEY'),
 }
 ```
+
+
