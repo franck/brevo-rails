@@ -20,6 +20,7 @@ module BrevoRails
         params['cc'] = prepare_cc(address_list(message['cc'])&.addresses) if message['cc']
         params['bcc'] = prepare_bcc(address_list(message['bcc'])&.addresses) if message['bcc']
         params['attachment'] = prepare_attachments(message.attachments) if message.attachments.any?
+        params['tags'] = message['tags']&.unparsed_value if message['tags']
 
         Brevo::SendSmtpEmail.new(params)
       end

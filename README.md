@@ -21,4 +21,17 @@ config.action_mailer.brevo_settings = {
 }
 ```
 
+Send an email with tags
+
+```
+def method
+    mail(
+        from: 'me@example.com',
+        to: 'you@example.com',
+        subject: 'Hello there!',
+        tags: ['tag1', 'tag2'],
+    )
+end
+```
+
 

@@ -24,15 +24,6 @@ RSpec.describe BrevoRails::Mail do
     end
   end
 
-  let(:message_with_attachments) do
-    Mail.new do
-      from    'Tester <test@example.com>'
-      to      'you@example.com, her@example.com'
-      subject 'This is a test email'
-      headers 'X-Custom-Header' => 'Custom Value'
-      attachments['test.png'] = File.read('spec/fixtures/test.png')
-    end
-  end
 
   before do
     message.text_part = text_part
@@ -73,11 +64,20 @@ RSpec.describe BrevoRails::Mail do
       expect(custom_header).to eq('Custom Value')
     end
 
-    it 'sets attachments' do
+    it 'does not set attachments' do
       expect(subject.attachment).to be_nil
     end
 
     context 'with attachments' do
+      let(:message_with_attachments) do
+        Mail.new do
+          from    'Tester <test@example.com>'
+          to      'you@example.com, her@example.com'
+          subject 'This is a test email'
+          attachments['test.png'] = File.read('spec/fixtures/test.png')
+        end
+      end
+
       subject { BrevoRails::Mail.from_message(message_with_attachments) }
 
       it 'sets attachments' do
@@ -87,5 +87,20 @@ RSpec.describe BrevoRails::Mail do
       end
     end
 
+    context 'with tags' do
+      let(:message_with_tags) do
+        Mail.new(from: 'Tester <test@example.com>',
+                 to: 'you@example.com, her@example.com',
+                 subject: 'This is a test email',
+                 tags: ['tag1', 'tag2'])
+      end
+
+      subject { BrevoRails::Mail.from_message(message_with_tags) }
+
+      it 'sets tags' do
+        expect(subject.tags).to eq(['tag1', 'tag2'])
+      end
+    end
   end
+
 end
