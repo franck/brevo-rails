@@ -7,7 +7,7 @@ brevo_rails is an Action Mailer adapter for using Brevo in Ruby on Rails applica
 In your Gemfile
 
 ```ruby
-gem 'brevo-rails'
+gem 'brevo-rails', require: 'brevo_rails'
 ```
 
 ## Usage
