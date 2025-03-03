@@ -1,0 +1,1 @@
+require 'brevo_rails'
