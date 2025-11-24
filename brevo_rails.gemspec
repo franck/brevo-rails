@@ -19,6 +19,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'debug', '~> 1.0'
   s.add_development_dependency 'mail', '~> 2.5', '>= 2.5.4'
   s.add_development_dependency 'rspec', '~> 3.6', '>= 3.6.0'
+
   s.add_runtime_dependency 'activesupport', '> 4.3'
   s.add_runtime_dependency 'brevo', '~> 2.0'
 end
