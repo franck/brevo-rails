@@ -20,7 +20,7 @@ module BrevoRails
         params['cc'] = prepare_cc(address_list(message['cc'])&.addresses) if message['cc']
         params['bcc'] = prepare_bcc(address_list(message['bcc'])&.addresses) if message['bcc']
         params['attachment'] = prepare_attachments(message.attachments) if message.attachments.any?
-        params['tags'] = message['tags']&.unparsed_value if message['tags']
+        params['tags'] = prepare_tags(message['tags'].unparsed_value) if message['tags']
 
         Brevo::SendSmtpEmail.new(params)
       end
@@ -45,6 +45,13 @@ module BrevoRails
 
         def prepare_sender(sender)
           Brevo::SendSmtpEmailSender.new(prepare_address(sender))
+        end
+
+        # Brevo::SendSmtpEmail types tags as Array<String> and silently
+        # drops values of any other type, so a tags header set as a string
+        # must be split into an array to reach Brevo at all.
+        def prepare_tags(tags)
+          tags.is_a?(Array) ? tags : tags.to_s.split(',').map(&:strip)
         end
 
         def prepare_to(addresses=[])

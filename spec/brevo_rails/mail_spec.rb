@@ -101,6 +101,21 @@ RSpec.describe BrevoRails::Mail do
         expect(subject.tags).to eq(['tag1', 'tag2'])
       end
     end
+
+    context 'with tags set as a string' do
+      let(:message_with_tags) do
+        Mail.new(from: 'Tester <test@example.com>',
+                 to: 'you@example.com, her@example.com',
+                 subject: 'This is a test email',
+                 tags: 'tag1, tag2')
+      end
+
+      subject { BrevoRails::Mail.from_message(message_with_tags) }
+
+      it 'sets tags' do
+        expect(subject.tags).to eq(['tag1', 'tag2'])
+      end
+    end
   end
 
 end
